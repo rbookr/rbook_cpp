@@ -1,0 +1,9 @@
+[submodule "ext/libgit2"]
+	path = ext/libgit2
+	url = https://github.com/libgit2/libgit2
+[submodule "ext/yaml-cpp"]
+	path = ext/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
+[submodule "third-party/yaml-cpp"]
+	path = third-party/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
