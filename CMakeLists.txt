@@ -8,10 +8,12 @@ set(CMAKE_CXX_FLAGS "-std=c++17 -g")
 #SET(BUILD_SHARED_LIBS OFF)
 include_directories(include)
 include_directories(third-party)
+
 add_subdirectory(third-party/yaml-cpp)
+add_subdirectory(third-party/netcore)
 #list(APPEND EXTRA_LIBS /ext/yaml-cpp)
 #message(${EXTRA_LIBS})
 
 aux_source_directory(src SRC)
 add_executable(main main.cpp ${SRC})
-target_link_libraries(main PUBLIC yaml-cpp)
+target_link_libraries(main PUBLIC yaml-cpp netcore)
