@@ -30,6 +30,7 @@ public:
     std::string update_time; //更新时间
 
     MdInfo() =default;
+    MdInfo(std::string_view& id) : id{id} {}
 
     MdInfo(const fs::path & mdfile) 
     {
@@ -66,6 +67,7 @@ public:
     bool operator <(const MdInfo & md){ return id < md.id; }
     bool operator <=(const MdInfo & md){ return id <= md.id; }
     bool operator >(const MdInfo & md){ return id > md.id; }
+    bool operator ==(const MdInfo & md){ return id == md.id; }
 
 };
 
@@ -108,7 +110,19 @@ public:
     void scan(); //扫描所有的书
 
     //查找对应的md
-    MdInfo * search(std::string_view id);
+    MdInfo * search(std::string_view id) {
+        MdInfo tmp(id);
+        auto res = m_Btree->search(tmp);
+        if( res == nullptr) {
+            std::cerr << "没有找到" << std::endl;
+            return nullptr;
+        }
+        for(int i=0;i<res->n;++i){
+            if( res->keys[i] == tmp)
+                return &(res->keys[i]);
+        }
+        return nullptr;
+    }
 
     const std::string_view get_name() const{ return m_name; }
 
@@ -139,7 +153,7 @@ public:
     }
 
 
-private:
+//private:
     //解析url,得到 name raw_url
     //void parse(const std::string_view & url,bool parse_name); 
     
@@ -190,6 +204,7 @@ bool Book::update(){
 }
 
 void Book::scan(){
+    int cnt=0;
     for (fs::recursive_directory_iterator i(m_local), end; i != end; ++i) 
         if (!fs::is_directory(i->path()) && i->path().extension() == ".md") {
             //得到地址
@@ -198,10 +213,12 @@ void Book::scan(){
             std::cerr << res.id << "\n";
             std::cerr << res.title << "\n";
             m_Btree->insert(std::move(res));
+            cnt++;
             //std::cerr << i->path().relative_path() << "\n";
             // 得到头
             // 加入到Btree 里
         }
+    dbg(cnt);
 }
 
 

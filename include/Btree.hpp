@@ -74,7 +74,7 @@ struct BTreeNode
     // y 指向孩子的
     void splitChild(int i,BTreeNode * y);
     // 从当前点开始search k
-    BTreeNode* search(int k); 
+    BTreeNode* search(T& k); 
 
 /* ===================== 删除 =====================*/
     // 分成8个函数来使用
@@ -278,7 +278,7 @@ void BTreeNode<T,deg>::splitChild(int i,BTreeNode * y){
 }
 
 template<typename T,size_t deg>
-BTreeNode<T,deg>* BTreeNode<T,deg>::search(int k) // 从当前点开始search k
+BTreeNode<T,deg>* BTreeNode<T,deg>::search(T& k) // 从当前点开始search k
 {
     int i = bsearch(k);
     //if 找到位置 与k 相等,返回这个点

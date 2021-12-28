@@ -12,6 +12,6 @@ add_subdirectory(third-party/yaml-cpp)
 #list(APPEND EXTRA_LIBS /ext/yaml-cpp)
 #message(${EXTRA_LIBS})
 
-aux_source_directory(src SRC)k
+aux_source_directory(src SRC)
 add_executable(main main.cpp ${SRC})
 target_link_libraries(main PUBLIC yaml-cpp)
